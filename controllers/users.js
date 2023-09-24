@@ -11,7 +11,7 @@ const register = async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user) {
-    throw errorHandler(409, "Email in use");
+    errorHandler(409, "Email in use");
   }
 
   const hashPassword = await bcrypt.hash(password, 10);
@@ -29,17 +29,18 @@ const login = async (req, res) => {
   const { email, password } = req.body
   const user = await User.findOne({ email });
   if (!user) {
-    throw errorHandler(401, 'Email or password is wrong')
+     errorHandler(401, 'Email or password is wrong')
   }
   const passwordCompare = await bcrypt.compare(password, user.password)
   if (!passwordCompare) {
-    throw errorHandler(401, "Email or password is wrong");
+     errorHandler(401, "Email or password is wrong");
   }
 
   const payload = {
     id: user._id
   }
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "24h" });
+  await User.findByIdAndUpdate(user._id, {token})
   
   res.status(200).json({
     token,
@@ -50,7 +51,23 @@ const login = async (req, res) => {
   })
 }
 
+const logout = async (req, res) => {
+  const { _id } = req.user
+  await User.findByIdAndUpdate(_id, { token: "" })
+  res.status(204).json()
+}
+
+const current = async (req, res) => {
+  const { email, subscription } = req.user
+  res.status(200).json({
+    email,
+    subscription
+  })
+}
+
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
+  logout: ctrlWrapper(logout),
+  current: ctrlWrapper(current)
 };

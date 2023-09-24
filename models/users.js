@@ -26,6 +26,6 @@ userSchema.post("save", (error, data, next) => {
   next();
 });
 
-const User = model("user", userSchema);
+const User = model("users", userSchema);
 
 module.exports = User;
