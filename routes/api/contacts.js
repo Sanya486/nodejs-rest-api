@@ -7,14 +7,15 @@ const { validation } = require('../../utils')
 
 router.get("/", authenticate, contacts.listContacts);
 
-router.get("/:contactId", isValidId, contacts.getContactById);
+router.get("/:contactId", authenticate, isValidId, contacts.getContactById);
 
-router.post("/",  validateBody(validation.postSchema), contacts.addContact);
+router.post("/", authenticate, validateBody(validation.postSchema), contacts.addContact);
 
-router.delete("/:contactId",  isValidId, contacts.removeContact);
+router.delete("/:contactId", authenticate,  isValidId, contacts.removeContact);
 
 router.put(
   "/:contactId",
+  authenticate,
   isValidId,
   validateBody(validation.putSchema),
   contacts.updateContact
@@ -22,9 +23,11 @@ router.put(
 
 router.patch(
   "/:contactId/favorite",
+  authenticate,
   isValidId,
   validateBody(validation.favoriteFieldSchema),
   contacts.updateStatusContact
 );
+
 
 module.exports = router;

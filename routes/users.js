@@ -28,6 +28,10 @@ router.post(
   user.current
 );
 
+router.patch("/", authenticate, validateBody(validation.subscriptionSchema), user.updateSubscription);
+
+
+
 
 
 

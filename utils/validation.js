@@ -23,6 +23,10 @@ const postSchema = Joi.object({
   favorite: Joi.boolean()
 });
 
+const subscriptionSchema = Joi.object({
+  subscription: Joi.string().valid("starter", "pro", "business"),
+});
+
 const putSchema = Joi.object().min(1).error(new Error("missing fields"));
 
 const favoriteFieldSchema = Joi.object({
@@ -35,4 +39,5 @@ module.exports = {
   favoriteFieldSchema,
   registerSchema,
   loginSchema,
+  subscriptionSchema,
 };
