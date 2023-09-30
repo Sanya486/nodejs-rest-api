@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose')
+const { Schema, model } = require("mongoose");
 
 const contactsSchema = new Schema(
   {
@@ -24,11 +24,11 @@ const contactsSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-contactsSchema.post('save', (error, data, next) => {
-    console.log(error)
-    next()
-})
+contactsSchema.post("save", (error, data, next) => {
+  console.log(error);
+  next();
+});
 
-const Contact = model('contact', contactsSchema)
+const Contact = model("contact", contactsSchema);
 
-module.exports = Contact
+module.exports = Contact;

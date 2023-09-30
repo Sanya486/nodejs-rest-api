@@ -1,23 +1,25 @@
-const Contact = require('../models/contact')
-const ctrlWrapper = require('../utils/ctrlWrapper')
+const Contact = require("../models/contact");
+const ctrlWrapper = require("../utils/ctrlWrapper");
 const errorHandler = require("../utils/errorHandler");
 
 const listContacts = async (req, res) => {
   const { _id: owner } = req.user;
-  const { page = 1, limit = 10 } = req.query
-  const skip = (page - 1) * limit
-  console.log(1)
-  const contacts = await Contact.find({owner, ...req.query}, "-createdAt -updatedAt", {skip, limit}).populate("owner", "email")
-  console.log(2)
+  const { page = 1, limit = 10 } = req.query;
+  const skip = (page - 1) * limit;
+  console.log(1);
+  const contacts = await Contact.find(
+    { owner, ...req.query },
+    "-createdAt -updatedAt",
+    { skip, limit }
+  ).populate("owner", "email");
+  console.log(2);
   res.status(200).json(contacts);
 };
 
 const getContactById = async (req, res) => {
   const { _id: owner } = req.user;
-  const {contactId} = req.params
-  const contact = await Contact.find(
-    { _id: contactId, owner }
-  );
+  const { contactId } = req.params;
+  const contact = await Contact.find({ _id: contactId, owner });
   if (!contact) {
     errorHandler(404, "Not found");
   }
@@ -25,16 +27,17 @@ const getContactById = async (req, res) => {
 };
 
 const addContact = async (req, res) => {
-  const { _id:owner } = req.user;
-  const addedContact = await Contact.create(
-    { ...req.body, owner },
-  );
+  const { _id: owner } = req.user;
+  const addedContact = await Contact.create({ ...req.body, owner });
   res.status(201).json(addedContact);
 };
 
 const removeContact = async (req, res) => {
-   const { _id: owner } = req.user;
-  const contact = await Contact.findOneAndRemove({_id: req.params.contactId, owner});
+  const { _id: owner } = req.user;
+  const contact = await Contact.findOneAndRemove({
+    _id: req.params.contactId,
+    owner,
+  });
   if (!contact) {
     errorHandler(404, "Not found");
   }
@@ -42,22 +45,8 @@ const removeContact = async (req, res) => {
   return contact;
 };
 
-
 const updateContact = async (req, res) => {
   const { _id: owner } = req.user;
-  const contact = await Contact.findOneAndUpdate(
-    {_id:req.params.contactId, owner},
-    req.body,
-    { new: true }
-  );
-  if (!contact) {
-    errorHandler( 404, "Not found");
-  }
-      res.status(200).json(contact);
-};
-
-const updateStatusContact = async (req, res) => {
-const { _id: owner } = req.user;
   const contact = await Contact.findOneAndUpdate(
     { _id: req.params.contactId, owner },
     req.body,
@@ -69,7 +58,18 @@ const { _id: owner } = req.user;
   res.status(200).json(contact);
 };
 
-
+const updateStatusContact = async (req, res) => {
+  const { _id: owner } = req.user;
+  const contact = await Contact.findOneAndUpdate(
+    { _id: req.params.contactId, owner },
+    req.body,
+    { new: true }
+  );
+  if (!contact) {
+    errorHandler(404, "Not found");
+  }
+  res.status(200).json(contact);
+};
 
 module.exports = {
   listContacts: ctrlWrapper(listContacts),

@@ -19,7 +19,12 @@ router.patch(
   authenticate,
   validateBody(validation.subscriptionSchema),
   user.updateSubscription
-  );
-router.patch("/avatars", authenticate, upload.single('avatar'), user.updateAvatar);
-  
-  module.exports = router;
+);
+router.patch(
+  "/avatars",
+  authenticate,
+  upload.single("avatar"),
+  user.updateAvatar
+);
+
+module.exports = router;
