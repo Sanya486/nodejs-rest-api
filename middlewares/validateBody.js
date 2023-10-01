@@ -1,14 +1,14 @@
-const errorHandler = require('../utils/errorHandler')
+const errorHandler = require("../utils/errorHandler");
 
-const validateBody = schema => {
-    const func = (req, res, next)=>{
-        const { error } = schema.validate(req.body)
-        if(error)  {
-            next(errorHandler(400, error.message))
-        }
-        next()
+const validateBody = (schema) => {
+  const func = (req, res, next) => {
+    const { error } = schema.validate(req.body);
+    if (error) {
+      next(errorHandler(400, error.message));
     }
-    return func
-}
+    next();
+  };
+  return func;
+};
 
-module.exports = validateBody
+module.exports = validateBody;

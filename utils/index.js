@@ -1,7 +1,7 @@
-const ctrlWrapper = require('./ctrlWrapper')
-const errorHandler = require('./errorHandler')
-const validation = require('./validation')
-const handleMongooseError = require('./handleMongooseError')
+const ctrlWrapper = require("./ctrlWrapper");
+const errorHandler = require("./errorHandler");
+const validation = require("./validation");
+const handleMongooseError = require("./handleMongooseError");
 
 module.exports = {
   ctrlWrapper,
@@ -9,4 +9,3 @@ module.exports = {
   validation,
   handleMongooseError,
 };
-  
