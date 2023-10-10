@@ -17,7 +17,7 @@ describe("test user authentication", () => {
 
     beforeEach(async () => {
         await mongoose.connect(DB_HOST);
-        server = await app.listen(3000, () => {
+        server = await app.listen(3001, () => {
             console.log("Server running. Use our API on port: 3000");
         });
     });
@@ -26,7 +26,7 @@ describe("test user authentication", () => {
         server.close();
     });
 
-    test("Response must hanve status 200", async () => {
+    test("Response must have status 200", async () => {
         const response = await request(app)
             .post("/users/login")
             .send({ email: "alex@gmail.com", password: "test12345" });

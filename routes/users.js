@@ -11,6 +11,8 @@ router.post(
   validateBody(validation.registerSchema),
   user.register
 );
+router.get("/verify/:verificationToken", user.verifyEmail);
+router.post("/verify", validateBody(validation.verifySchema), user.resendVerifyEmail);
 router.post("/login", validateBody(validation.loginSchema), user.login);
 router.post("/logout", authenticate, user.logout);
 router.post("/current", authenticate, user.current);
@@ -26,5 +28,7 @@ router.patch(
   upload.single("avatar"),
   user.updateAvatar
 );
+
+
 
 module.exports = router;
