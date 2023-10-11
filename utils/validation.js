@@ -1,5 +1,5 @@
 const Joi = require("joi");
-
+// eslint-disable-next-line
 const emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 const registerSchema = Joi.object({
@@ -7,6 +7,13 @@ const registerSchema = Joi.object({
   password: Joi.string().min(8).required(),
   subscription: Joi.string(),
 }).error(new Error("Помилка від Joi або іншої бібліотеки валідації"));
+
+const verifySchema = Joi.object({
+  email: Joi.string()
+    .pattern(emailRegEx)
+    .required()
+    .error(new Error("missing required field email")),
+});
 
 const loginSchema = Joi.object({
   email: Joi.string().pattern(emailRegEx).required(),
@@ -37,4 +44,5 @@ module.exports = {
   registerSchema,
   loginSchema,
   subscriptionSchema,
+  verifySchema,
 };
